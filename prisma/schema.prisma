@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  PENDING
+  DOING
+  DONE
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  Username  String   @unique @db.VarChar(30)
+  display   String   @db.VarChar(15)@default("DisplayName")
+  Password  String   @db.VarChar(72)
+  Email     String? 
+  Todo      Todo[]
+  avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
+  createdAt DateTime @default(now())
+}
+
+
+model Todo {
+  id       Int      @id @default(autoincrement())
+  Title    String
+  img      String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
+  createdAt DateTime @default(now())
+  Duedate  DateTime 
+  Status   Status   @default(PENDING)
+  user     User     @relation(fields: [UserID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  UserID   Int
+}
+
