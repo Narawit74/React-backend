@@ -13,7 +13,7 @@ async function run() {
       { Username: 'Snoool', display:'NackNarawit', Password, Email: 'yocharee74@gmail.com', avatar: 'https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg' },
     ];
 
-    const TodoData = [
+    const RentBook = [
       { Title: 'Learn HTML', Duedate: new Date(), UserID: 1 },
       { Title: 'Learn js', Duedate: new Date(), UserID: 2 },
       { Title: 'Learn java', Duedate: new Date(), UserID: 3 },
@@ -26,8 +26,8 @@ async function run() {
       data: UserData
     });
 
-    await prisma.todo.createMany({
-      data: TodoData
+    await prisma.RentBook.createMany({
+      data: RentBook
     });
 
     const usersWithAvatar = await prisma.user.findMany({

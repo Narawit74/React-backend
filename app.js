@@ -7,7 +7,7 @@ const errorHandler = require("./middlewares/error")
 const notFoundHandler = require("./middlewares/notfound")
 
 const authRoute = require("./routes/auth-route")
-const todoRoute = require("./routes/todo-route")
+const RentbookRoute = require("./routes/rentbook-route")
 const userRoute = require("./routes/user-route")
 const adminRoute = require("./routes/admin-route")
 
@@ -18,7 +18,7 @@ app.use(express.json())
 
 app.use("/auth",authRoute)
 app.use("/product",()=>{})
-app.use("/todos",todoRoute)
+app.use("/rentbook",RentbookRoute)
 app.use("/user",userRoute)
 app.use("/admin",adminRoute)
 

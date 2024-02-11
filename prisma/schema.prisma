@@ -25,11 +25,11 @@ model User {
   role      Int      @default(0)
   avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
   createdAt DateTime @default(now())
-  Todo      Todo[]
+  RentBook      RentBook[]
 }
 
 
-model Todo {
+model RentBook {
   id       Int      @id @default(autoincrement())
   Title    String
   img      String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
