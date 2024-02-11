@@ -24,7 +24,7 @@ model User {
   Email     String? 
   role      Int      @default(0)
   avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
-  createdAt DateTime @default(now())
+  createdAt DateTime @db.Date()@default(now())
   RentBook      RentBook[]
 }
 
@@ -33,8 +33,8 @@ model RentBook {
   id       Int      @id @default(autoincrement())
   Title    String
   img      String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
-  createdAt DateTime @default(now())
-  Duedate  DateTime 
+  createdAt DateTime @db.Date()@default(now())
+  Duedate  DateTime  @db.Date()
   Status   Status   @default(PENDING)
   user     User     @relation(fields: [UserID], references: [id], onDelete: Cascade, onUpdate: Cascade)
   UserID   Int
