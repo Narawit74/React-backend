@@ -21,12 +21,11 @@ exports.register = async (req,res,next) => {
         Password: hashedPassword,
         Email:email 
     }
-    await prisma.user.create({ // insert to database
+    await prisma.user.create({
         data : data
     })
     
     res.send("in register...")
-    // res.json({ data })
     } catch (err) {
         next(err)
     }
