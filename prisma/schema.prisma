@@ -22,9 +22,10 @@ model User {
   display   String   @db.VarChar(15)@default("DisplayName")
   Password  String   @db.VarChar(72)
   Email     String? 
-  Todo      Todo[]
+  role      Int      @default(0)
   avatar    String?  @default("https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg")
   createdAt DateTime @default(now())
+  Todo      Todo[]
 }
 
 

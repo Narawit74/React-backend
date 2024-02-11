@@ -47,7 +47,7 @@ exports.login = async (req,res,next) => {
         if(!pwOk) {
             throw new Error('invalid login')
         }
-        const payload = { id: user.id }
+        const payload = { id: user.id, role: user.role }
         const token = jwt.sign(payload, process.env.JWT_SECRET_KEY,{
             expiresIn: '10d'
         })
