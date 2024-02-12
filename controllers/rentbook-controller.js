@@ -25,7 +25,7 @@ exports.getByAdmin = async (req,res,next) => {
 exports.getByAdminSearch = async (req,res,next) => {
     try {
         const { text } = req.query
-        console.log(text)
+        // console.log(text)
         const querytirm = text.trim()
         if(querytirm.length === 0){
             return res.status(405).json({message:"please fill input"})
@@ -45,7 +45,7 @@ exports.getByAdminSearch = async (req,res,next) => {
             return res.status(404).json({ message: "No match item" });
         }
         
-        console.log(productData)
+        // console.log(productData)
     res.json({ productData })
         
     } catch (err) {
