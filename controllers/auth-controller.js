@@ -83,11 +83,11 @@ exports.updateUser = async (req,res,next) =>{
             avatar: data.avatar
         }
 
+        const pkCheck = await bcrypt.compare(oldPassword,data.Password)
+        if(!pkCheck){
+            throw new Error(`Invaild Password`)
+        }
         if(newPassword){
-            const pkCheck = await bcrypt.compare(oldPassword,data.Password)
-            if(!pkCheck){
-                throw new Error(`Invaild Password`)
-            }
             const newpasshashed = await bcrypt.hash(newPassword,8)
             userData.Password = newpasshashed
         }
