@@ -15,7 +15,9 @@ exports.getByUser = async (req, res, next) => {
 
 exports.getByAdmin = async (req, res, next) => {
     try {
-        const data = await prisma.rentBook.findMany({})
+        const data = await prisma.rentBook.findMany({
+            
+        })
         res.json(data)
     } catch (err) {
         next(err)
@@ -24,10 +26,14 @@ exports.getByAdmin = async (req, res, next) => {
 
 exports.getRentBookByID = async (req, res, next) => {
     try {
-        const { id } = req.query;
+        const { id } = req.params;
 
-        const RentDataID = await prisma.$queryRaw`SELECT * FROM rentbook WHERE id = ${id}`;
-        if (RentDataID.length === 0) {
+        const RentDataID = await prisma.rentBook.findFirst({
+            where :{
+                id:Number(id)
+            }
+        })
+        if (!RentDataID) {
             return res.status(404).json({ message: "The requested item does not exist." });
         }
 
@@ -48,7 +54,7 @@ exports.createNewRentbook = async (req, res, next) => {
             Status: status,
             UserID: Number(userID)
         }
-        console.log(RentBook)
+        // console.log(RentBook)
         const rs = await prisma.rentBook.create({
             data: RentBook
         })
@@ -59,6 +65,79 @@ exports.createNewRentbook = async (req, res, next) => {
         next(err)
     }
 }
+
+exports.deleteRentBook = async(req,res,next) =>{
+    const { id } = req.params
+    try {
+        if(isNaN(id)){
+            return res.status(400).json({message : "please input id"})
+        }
+        const data = await prisma.rentBook.findFirst({
+            where : {
+                id : Number(id)
+            }
+        })
+        if(!data){
+            return res.status(404).json({message : `Can't find product with id ${id}`})
+        }
+        await prisma.rentBook.delete({
+            where:{
+                id : Number(id)
+            }
+        })
+        res.json({message : `Successfully delete rentbook id ${id}`})
+    } catch (err) {
+        next(err)
+    }
+}
+
+exports.updateRentBook = async (req, res, next) => {
+    const { title, img, duedate, status } = req.body;
+    const { id } = req.params;
+
+    try {
+        if(isNaN(id)){
+            return res.status(400).json({message : "please input id"})
+        }
+        let data = await prisma.rentBook.findFirst({
+            where: {
+                id: Number(id)
+            }
+        });
+
+        if (!data) {
+            return res.status(404).json({ message: `rentbook with id ${id} does not exist` });
+        }
+
+        let rentBookData = {};
+
+        if(title !== undefined && title !== data.Title){
+            rentBookData.Title = title
+        }
+        if (img !== undefined && img !== data.img) {
+            rentBookData.img = img
+        }
+        if (duedate !== undefined && duedate !== data.Duedate) {
+            rentBookData.Duedate = new Date(duedate);
+        }
+        if (status === "DOING" || status === "PENDING" || status === "DONE" && status !== data.Status) {
+            rentBookData.Status = status;
+        }
+
+        if (Object.keys(rentBookData).length > 0) {
+            await prisma.rentBook.update({
+                where: {
+                    id: Number(id)
+                },
+                data: rentBookData
+            });
+        }
+
+        res.json({ message: `Successfully updated product with id ${id}` });
+    } catch (err) {
+        next(err);
+    }
+};
 
 exports.getByAdminSearch = async (req, res, next) => {
     try {
