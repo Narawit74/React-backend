@@ -22,7 +22,6 @@ app.use("/rentbook",RentbookRoute)
 app.use("/user",userRoute)
 app.use("/admin",adminRoute)
 
-
 app.use(errorHandler);
 app.use("*", notFoundHandler);
 
